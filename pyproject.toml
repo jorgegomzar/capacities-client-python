@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "capacities-client"
+version = "0.1.0"
+description = "Interact with your Capacities spaces via the API."
+authors = ["Jorge Gómez Zarzosa <jorge.gomzar@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+requests = "^2.32.3"
+python-dotenv = "^1.0.1"
+
+[tool.poetry.group.dev.dependencies]
+pyright = "^1.1.382.post1"
+ruff-lsp = "^0.0.57"
+pytest = "^8.3.3"
+pytest-mock = "^3.14.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
