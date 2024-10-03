@@ -1,5 +1,11 @@
-from dataclasses import dataclass
 from enum import Enum
+from pydantic import BaseModel
+
+
+class Origin(str, Enum):
+    """The allowed origins when adding content to daily notes."""
+
+    COMMAND_PALETTE = "commandPalette"
 
 
 class ObjectTypes(Enum):
@@ -32,35 +38,30 @@ class ObjectTypes(Enum):
     TAG = ("Tag", "RootTag")
 
 
-@dataclass(frozen=True)
-class SpaceIcon:
+class SpaceIcon(BaseModel):
     type: str
     val: str
 
 
-@dataclass(frozen=True)
-class Space:
+class Space(BaseModel):
     id: str
     title: str
     icon: SpaceIcon
 
 
-@dataclass(frozen=True)
-class StructurePropertyDefinitions:
+class StructurePropertyDefinitions(BaseModel):
     id: str
     name: str
     type: str
     dataType: str
 
 
-@dataclass(frozen=True)
-class Collection:
+class Collection(BaseModel):
     id: str
     title: str
 
 
-@dataclass(frozen=True)
-class Structure:
+class Structure(BaseModel):
     id: str
     title: str
     pluralName: str
@@ -69,15 +70,12 @@ class Structure:
     collections: list[Collection]
 
 
-@dataclass(frozen=True)
-class SearchResultHighlight:
+class SearchResultHighlight(BaseModel):
     context: dict[str, str]
     snippets: list[str]
 
 
-
-@dataclass(frozen=True)
-class SearchResult:
+class SearchResult(BaseModel):
     id: str
     spaceId: str
     structureId: str
