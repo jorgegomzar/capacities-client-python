@@ -9,7 +9,7 @@ from capacities.api_client import CapacitiesAPIClient
 
 
 logger = logging.getLogger("capacities-telegram-bot")
-TELEGRAM_INBOX_TAG = "#telegram-inbox"
+TELEGRAM_INBOX_TAG = "telegram-inbox"
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
