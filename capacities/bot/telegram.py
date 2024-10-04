@@ -33,6 +33,7 @@ async def message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     api_client: CapacitiesAPIClient = context.bot_data["api_client"]
     telegram_inbox_tag: CapacitiesAPIClient = context.bot_data["telegram_inbox_tag"]
+    opts: dict = context.bot_data["opts"]
 
     if update.message.is_topic_message:
         try:
@@ -44,6 +45,10 @@ async def message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await update.message.reply_text(
                 text="Could not get topic name, sorry :c. For more info check the logs."
             )
+
+    if opts.get("only_forward_from_topics"):
+        # Do not forward if message not coming from topic
+        return
 
     msg += f" #{telegram_inbox_tag}"
     api_client.save_to_daily_note(msg, no_time_stamp=False)
@@ -64,6 +69,7 @@ class CapacitiesTelegramBot:
         self,
         token: Optional[str] = None,
         telegram_inbox_tag: Optional[str] = None,
+        only_forward_from_topics: bool = False
     ) -> None:
 
         if not (
@@ -79,9 +85,18 @@ class CapacitiesTelegramBot:
             os.getenv("CAPACITIES_TELEGRAM_INBOX_TAG", TELEGRAM_INBOX_TAG)
         )
 
+        only_forward_from_topics = (
+            only_forward_from_topics or
+            os.getenv("ONLY_FORWARD_FROM_TOPICS", "false").lower() in ["true", "1"]
+        )
+        opts = {
+            "only_forward_from_topics": only_forward_from_topics
+        }
+
         self.application = ApplicationBuilder().token(token).build()
         self.application.bot_data["api_client"] = CapacitiesAPIClient()
         self.application.bot_data["telegram_inbox_tag"] = telegram_inbox_tag
+        self.application.bot_data["opts"] = opts
 
         for handler in HANDLERS:
             self.application.add_handler(handler)

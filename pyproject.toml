@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "capacities-python"
-version = "0.1.0"
+version = "0.1.1"
 description = "Collection of tools to interact with your Capacities spaces via the API."
 authors = ["Jorge Gómez Zarzosa <jorge.gomzar@gmail.com>"]
 readme = "README.md"
