@@ -35,6 +35,7 @@ async def message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     telegram_inbox_tag: CapacitiesAPIClient = context.bot_data["telegram_inbox_tag"]
     opts: dict = context.bot_data["opts"]
 
+    topic = None
     if update.message.is_topic_message:
         try:
             # NOTE: https://github.com/tdlib/telegram-bot-api/issues/356#issuecomment-1751924102
@@ -46,7 +47,7 @@ async def message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 text="Could not get topic name, sorry :c. For more info check the logs."
             )
 
-    if opts.get("only_forward_from_topics"):
+    if not topic and opts.get("only_forward_from_topics"):
         # Do not forward if message not coming from topic
         return
 
